@@ -2,13 +2,13 @@ import * as React from 'react';
 import './App.css';
 import MuralPicker, { PropTypes } from 'mural-integrations-mural-picker'
 import {apiClient} from "./setupAPI";
-import axios from 'axios';
+import { fetchStickyNotes } from "./api";
 
 const handleMural = async (mural: any) => {
   console.log(`Got Mural!`, mural);
 
-  const r = await axios.get(`http://localhost:5000/get-stickies`);
-  console.log(r);
+  const widgets = await fetchStickyNotes(mural.id);
+  console.dir(widgets);
 }
 
 const handleError = (_: Error, message: string) => {
