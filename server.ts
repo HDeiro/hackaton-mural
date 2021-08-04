@@ -1,9 +1,10 @@
-import config from 'dos-config';
-import * as express from 'express';
-import { Request, Response } from 'express';
-import createApp from 'async-app';
-import app from './lib/base-app';
-import { authorize, accessToken, refreshToken } from './lib/oauth';
+import config from "dos-config";
+import * as express from "express";
+import { Request, Response } from "express";
+import createApp from "async-app";
+import app from "./lib/base-app";
+import { authorize, accessToken, refreshToken } from "./lib/oauth";
+import { translate } from "./src/api/translate.api";
 
 const configProvider = () => {
   const cfg = {
@@ -23,10 +24,10 @@ const accessTokenHandler = accessToken(configProvider);
 const refreshTokenHandler = refreshToken(configProvider);
 
 const auth = createApp();
-auth.use(express.json())
+auth.use(express.json());
 
 auth.get(
-  '/',
+  "/",
   // { redirectUri: 'string?', state: 'string?' },
   (req: Request, res: Response) => {
     const url = authorizeUrl(req, {
@@ -36,15 +37,15 @@ auth.get(
       state: req.query.state ? req.query.state.toString() : undefined,
     });
 
-    res.send(url)
-  },
+    res.send(url);
+  }
 );
 
 auth.get(
-  '/token',
+  "/token",
   async (
     req: Request<any, any, any, { redirectUri?: string; code: string }>,
-    res: Response,
+    res: Response
   ) => {
     const tokens = await accessTokenHandler(req, {
       redirectUri: req.query.redirectUri,
@@ -52,11 +53,11 @@ auth.get(
     });
 
     res.json(tokens);
-  },
+  }
 );
 
 auth.post(
-  '/refresh',
+  "/refresh",
   //{ refreshToken: 'string' },
   async (req: Request<any, any, { refreshToken: string }>, res: Response) => {
     const tokens = await refreshTokenHandler(req, {
@@ -64,13 +65,18 @@ auth.post(
     });
 
     res.json(tokenResponse(tokens));
-  },
+  }
 );
 
-app.get('/get-stickies', (_, res) => res.send("Hello world!"));
+app.get(
+  "/api/mural/:muralId/translate/stickies",
+  async (req: Request, res: Response) => {
+    return await translate(req, res);
+  }
+);
 
-app.use('/auth', auth);
+app.use("/auth", auth);
 
 app.listen(config.serverPort, () => {
-  console.log(`Example app listening at http://localhost:${config.serverPort}`)
-})
+  console.log(`Example app listening at http://localhost:${config.serverPort}`);
+});
