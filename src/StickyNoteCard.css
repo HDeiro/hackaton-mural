@@ -1,0 +1,35 @@
+.StickyNoteCard {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.StickyNoteCard-bold {
+  font-weight: bold;
+}
+
+.StickyNoteCard-border {
+  border: 3px solid black;
+}
+
+.StickyNoteCard-circle {
+  border-radius: 50%;
+}
+
+.StickyNoteCard-italic {
+  font-style: italic;
+}
+
+.StickyNoteCard-strike {
+  text-decoration: line-through;
+}
+
+.StickyNoteCard-underline {
+  text-decoration: underline;
+}
+
+.StickyNoteCard-strike.StickyNoteCard-underline {
+  text-decoration: line-through underline;
+}
