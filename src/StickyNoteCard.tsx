@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import fontColorContrast from "font-color-contrast";
 import "./StickyNoteCard.css";
 import { StickyNote } from "./types";
 
@@ -27,6 +28,8 @@ export class StickyNoteCard extends Component<StickyNoteProps> {
       },
       text,
     } = this.props.stickyNote;
+
+    const color = fontColorContrast(backgroundColor);
 
     const classNames = ["StickyNoteCard"];
 
@@ -59,6 +62,7 @@ export class StickyNoteCard extends Component<StickyNoteProps> {
         className={classNames.join(" ")}
         style={{
           backgroundColor,
+          color,
           fontSize,
           justifyContent: textAlign,
           height,
