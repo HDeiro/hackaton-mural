@@ -1,6 +1,10 @@
 .StickyNoteGrid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  max-width: 800px;
+  justify-content: flex-start;
+}
+
+.StickyNoteGrid .StickyNoteCard {
+  margin-right: 16px;
+  margin-bottom: 16px;
 }

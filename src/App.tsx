@@ -1,46 +1,36 @@
 import * as React from "react";
 import "./App.css";
-import MuralPicker from "mural-integrations-mural-picker";
-import { apiClient } from "./setupAPI";
 import { fetchStickyNotes } from "./api";
 import { StickyNoteGrid } from "./StickyNoteGrid";
-import { Mural, StickyNote } from "./types";
-
-const handleError = (_: Error, message: string) => {
-  console.log(message);
-};
+import { StickyNote } from "./types";
+import LanguageSelector from './language-selector/language-selector';
+import { EventEmitter, EventList } from './event-emitter/event-emitter';
+import { Language } from './language-selector/language';
 
 type AppState = {
-  loaded: boolean;
-  muralId: string | undefined;
+  loadingApp: boolean;
   loadingStickyNotes: boolean;
+  muralId: string | undefined;
   stickyNotes: StickyNote[];
 };
 
-class App extends React.Component<{ loaded: boolean }, AppState> {
+export default class App extends React.Component<{ loadingApp: boolean }, AppState> {
   state = {
-    loaded: false,
-    muralId: undefined,
+    loadingApp: false,
+    muralId: 'htti6785.1628084527320',
     loadingStickyNotes: false,
     stickyNotes: [],
   };
 
-  handleMural = (mural: Mural) => {
-    this.setState(
-      {
-        muralId: mural.id,
-      },
-      this.loadStickyNotes
-    );
-  };
+  componentDidMount() {
+    this.loadStickyNotes();
 
-  reset = () => {
-    this.setState({
-      muralId: undefined,
-      loadingStickyNotes: false,
-      stickyNotes: [],
-    });
-  };
+    EventEmitter.subscribe(
+      'app.tsx',
+      EventList.LanguageChanged,
+      (language: Language) => console.log(`Language Changed To`, language),
+    );
+  }
 
   loadStickyNotes = async () => {
     this.setState({
@@ -63,36 +53,32 @@ class App extends React.Component<{ loaded: boolean }, AppState> {
   };
 
   render() {
-    if (!this.props.loaded) {
+    if (!this.props.loadingApp) {
       return <h1>Loading</h1>;
-    }
-
-    if (this.state.muralId === undefined) {
-      return (
-        <MuralPicker
-          apiClient={apiClient}
-          onCreateMural={this.handleMural}
-          onMuralSelect={this.handleMural}
-          handleError={handleError}
-        />
-      );
     }
 
     return (
       <div>
-        <div>
-          <button onClick={this.reset}>Back to mural list</button>
+        <div className="app-header">
+          App title
         </div>
+        <div className="app-content">
+          <div className="common-title">
+            Select a language to translate
+          </div>
 
-        <div>
-          <button onClick={this.loadStickyNotes}>Refresh</button>
-        </div>
+          <LanguageSelector></LanguageSelector>
 
-        <div className="stickyNoteGridContainer">
-          <StickyNoteGrid
-            loading={this.state.loadingStickyNotes}
-            stickyNotes={this.state.stickyNotes}
-          />
+          <div className="common-title">
+            Sticky Nodes present on Mural
+          </div>
+
+          <div className="stickyNoteGridContainer">
+            <StickyNoteGrid
+              loading={this.state.loadingStickyNotes}
+              stickyNotes={this.state.stickyNotes}
+            />
+          </div>
         </div>
       </div>
     );

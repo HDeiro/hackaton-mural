@@ -53,9 +53,6 @@ export default class LanguageSelector extends React.Component {
   render() {
     return (
       <div className="language-selector-wrapper">
-        <div className="language-selector-title">
-          Select a language to translate
-        </div>
         {supportedLanguages.map((language) =>
           <button key={language.code}
             onClick={(evt) => {evt.preventDefault(); this.handleLanguageChange(language)}}

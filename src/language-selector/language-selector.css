@@ -1,28 +1,22 @@
 .language-selector-item {
   border: none;
   background-color: transparent;
-  border-radius: 100%;
+  border-radius: 12px;
   width: 52px;
   height: 52px;
   cursor: pointer;
+  border: 1px solid transparent;
   margin-right: 8px;
   transition: background-color 300ms ease-in;
 }
 
 .language-selector-item:hover {
-  background-color: lightgray;
-}
-
-.language-selector-title {
-  text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.54);
-  letter-spacing: 0.1px;
-  font-size: 16px;
-  padding-bottom: 8px;
+  background-color: white;
 }
 
 .language-selector-item-active {
-  background-color: lightgray;
+  background-color: white;
+  border-color: lightgray;
 }
 
 .language-selector-flag {

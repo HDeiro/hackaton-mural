@@ -5448,6 +5448,11 @@
   "resolved" "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.14.1.tgz"
   "version" "1.14.1"
 
+"font-color-contrast@^1.1.1":
+  "integrity" "sha512-402aw3qSp5n7JaXZPq6ZlBSaxZ3Y/zQiXeenReAdH6JLTwUmQXSXqVxZHMNKc5wK7oC8E14USbeKmWiaI8CchQ=="
+  "resolved" "https://registry.npmjs.org/font-color-contrast/-/font-color-contrast-1.1.1.tgz"
+  "version" "1.1.1"
+
 "for-in@^1.0.2":
   "integrity" "sha1-gQaNKVqBQuwKxybG4iAMMPttXoA="
   "resolved" "https://registry.npmjs.org/for-in/-/for-in-1.0.2.tgz"

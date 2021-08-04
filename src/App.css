@@ -1,47 +1,26 @@
-.App {
-  text-align: center;
+.common-title {
+  color: #444;
+  font-size: 18px;
+  font-weight: 500;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.language-selector-wrapper {
+  margin: 24px 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.StickyNoteGrid {
+  margin-top: 24px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.app-header {
+  height: 52px;
+  line-height: 52px;
+  background: #444;
+  padding: 0 16px;
+  font-size: 24px;
+  color: whitesmoke;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-button {
-  margin: 10px;
-}
-
-.stickyNoteGridContainer {
-  display: flex;
-  justify-content: center;
+.app-content {
+  padding: 16px;
 }
