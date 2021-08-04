@@ -1,66 +1,100 @@
-import * as React from 'react';
-import './App.css';
-import MuralPicker, { PropTypes } from 'mural-integrations-mural-picker'
-import {apiClient} from "./setupAPI";
-import axios from 'axios';
-import LanguageSelector from './language-selector/language-selector';
-import {EventEmitter, EventList} from './event-emitter/event-emitter';
-import { Language } from './language-selector/language';
-
-// ##########################
-// Handlers
-// ##########################
-const handleMural = async (mural: any) => {
-  console.log(`Got Mural!`, mural);
-
-  const r = await axios.get(`http://localhost:5000/get-stickies`);
-  console.log(r);
-}
+import * as React from "react";
+import "./App.css";
+import MuralPicker from "mural-integrations-mural-picker";
+import { apiClient } from "./setupAPI";
+import { fetchStickyNotes } from "./api";
+import { StickyNoteGrid } from "./StickyNoteGrid";
+import { Mural, StickyNote } from "./types";
 
 const handleError = (_: Error, message: string) => {
   console.log(message);
 };
 
-const onLanguageChange = (language: Language) => {
-  console.log('Language changed to ', language);
-}
-
-// ##########################
-// Subscriptions
-// ##########################
-EventEmitter.subscribe(
-  'app.tsx',
-  EventList.LanguageChanged,
-  onLanguageChange,
-);
-
-// ##########################
-// Props & Types
-// ##########################
-const muralPickerProps: PropTypes = {
-  apiClient: apiClient,
-  onCreateMural: handleMural,
-  onMuralSelect: handleMural,
-  handleError: handleError,
-}
-
 type AppState = {
   loaded: boolean;
-}
+  muralId: string | undefined;
+  loadingStickyNotes: boolean;
+  stickyNotes: StickyNote[];
+};
 
-// ##########################
-// Class Definition & export
-// ##########################
+class App extends React.Component<{ loaded: boolean }, AppState> {
+  state = {
+    loaded: false,
+    muralId: undefined,
+    loadingStickyNotes: false,
+    stickyNotes: [],
+  };
 
-export default class App extends React.Component<AppState> {
+  handleMural = (mural: Mural) => {
+    this.setState(
+      {
+        muralId: mural.id,
+      },
+      this.loadStickyNotes
+    );
+  };
+
+  reset = () => {
+    this.setState({
+      muralId: undefined,
+      loadingStickyNotes: false,
+      stickyNotes: [],
+    });
+  };
+
+  loadStickyNotes = async () => {
+    this.setState({
+      loadingStickyNotes: true,
+    });
+
+    let stickyNotes: AppState["stickyNotes"] = [];
+
+    try {
+      stickyNotes = await fetchStickyNotes(this.state.muralId);
+    } catch (error) {
+      // TODO: Improve error handling
+      console.log(`An error occurred while fetching sticky notes: ${error}`);
+    } finally {
+      this.setState({
+        loadingStickyNotes: false,
+        stickyNotes,
+      });
+    }
+  };
+
   render() {
+    if (!this.props.loaded) {
+      return <h1>Loading</h1>;
+    }
+
+    if (this.state.muralId === undefined) {
+      return (
+        <MuralPicker
+          apiClient={apiClient}
+          onCreateMural={this.handleMural}
+          onMuralSelect={this.handleMural}
+          handleError={handleError}
+        />
+      );
+    }
+
     return (
-      this.props.loaded
-      ? <div>
-          <MuralPicker {...muralPickerProps} />
-          <LanguageSelector></LanguageSelector>
+      <div>
+        <div>
+          <button onClick={this.reset}>Back to mural list</button>
         </div>
-      : <h1>Loading</h1>
-    )
+
+        <div>
+          <button onClick={this.loadStickyNotes}>Refresh</button>
+        </div>
+
+        <div className="stickyNoteGridContainer">
+          <StickyNoteGrid
+            loading={this.state.loadingStickyNotes}
+            stickyNotes={this.state.stickyNotes}
+          />
+        </div>
+      </div>
+    );
   }
 }

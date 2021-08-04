@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+button {
+  margin: 10px;
+}
+
+.stickyNoteGridContainer {
+  display: flex;
+  justify-content: center;
+}
