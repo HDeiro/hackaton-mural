@@ -47,12 +47,6 @@ export const fetchStickyNotes = async (
     // Add sticky notes to list
     widgets = widgets.concat(result.value);
 
-    /* eslint-disable no-loop-func */
-    new Array(30).fill(10).forEach((_i, index) => {
-      const copy = JSON.parse(JSON.stringify(widgets[0]));
-      copy.id = `a${index}`;
-      widgets.push(copy);
-    })
     // Get the token to request the next page
     next = result.next;
   } while (next !== undefined);

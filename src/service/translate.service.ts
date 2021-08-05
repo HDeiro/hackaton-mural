@@ -1,9 +1,18 @@
-import { StickyNote } from '../../types/types';
+import { Language, StickyNote } from '../../types/types';
 import { fetchStickyNotes } from './mural-api.service';
 
 const { Translate } = require('@google-cloud/translate').v2;
 
 let translateInstance: any;
+
+export const getSupportedLanguages = async (): Promise<Language[]> => {
+  const languages = await getInstance().getLanguages();
+
+  return languages[0].map((option: any) => ({
+    label: option.name,
+    value: option.code
+  }));
+}
 
 export const fetchTranslatedStickyNotes = async (
   muralId: string,

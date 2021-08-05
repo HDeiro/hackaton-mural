@@ -41,7 +41,7 @@ export default class App extends React.Component<{ loadedApp: boolean }, AppStat
     try {
       stickyNotes = await fetchTranslatedStickyNotes(
         this.state.muralId,
-        language.code
+        language.value
       );
     } catch (error) {
       // TODO: Improve error handling
