@@ -60,28 +60,31 @@ export default class App extends React.Component<{ loadedApp: boolean }, AppStat
     }
 
     return (
-      <div>
-        <div className="app-header">
-          Translation Tool
+      <div className="app-wrapper">
+        <div className="main">
+          <div className="main-title">
+            MURAL Translator
+          </div>
+          <div className="main-subtitle">
+            Translate sticky notes to another language
+          </div>
         </div>
 
-        <div className="app-content">
-          <div className="common-title">
-            Select a language to translate
-          </div>
+        <div className="common-title">
+          Selected Language
+        </div>
 
-          <LanguageSelector></LanguageSelector>
+        <LanguageSelector></LanguageSelector>
 
-          <div className="common-title">
-            Sticky Notes present on Mural
-          </div>
+        <div className="common-title">
+          Sticky note previews
+        </div>
 
-          <div className="sticky-note-grid-container">
-            <StickyNoteGrid
-              loading={this.state.loadingStickyNotes}
-              stickyNotes={this.state.stickyNotes}
-            />
-          </div>
+        <div className="sticky-note-grid-container">
+          <StickyNoteGrid
+            loading={this.state.loadingStickyNotes}
+            stickyNotes={this.state.stickyNotes}
+          />
         </div>
       </div>
     );
