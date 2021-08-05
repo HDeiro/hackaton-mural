@@ -3,6 +3,10 @@
  */
 export interface Mural {
   id: string;
+  roomId: string;
+  thumbnailUrl: string;
+  title: string;
+  workspaceId: string;
 }
 
 /**

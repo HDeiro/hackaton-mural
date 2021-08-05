@@ -4,6 +4,7 @@ import { StickyNote } from "../../../types/types";
 import { StickyNoteCard } from "../sticky-note-card/sticky-note-card";
 
 export interface StickyNoteGridProps {
+  disabled: boolean;
   loading: boolean;
   stickyNotes: StickyNote[];
 }
@@ -13,6 +14,14 @@ export interface StickyNoteGridProps {
  */
 export class StickyNoteGrid extends Component<StickyNoteGridProps> {
   render() {
+    if (this.props.disabled) {
+      return (
+        <div>
+          <p>Select a mural to see your sticky notes!</p>
+        </div>
+      );
+    }
+
     return this.props.loading ? (
       <progress />
     ) : (

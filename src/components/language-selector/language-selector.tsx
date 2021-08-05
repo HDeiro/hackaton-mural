@@ -7,7 +7,9 @@ import { getSupportedLanguages } from "../../service/translate.service";
 
 export const DEFAULT_LANGUAGE: Language = { label: "English", value: "en" };
 
-export interface LanguageSelectorProps {}
+export interface LanguageSelectorProps {
+  disabled: boolean;
+}
 
 interface LanguageSelectorState {
   supportedLanguages: Language[];
@@ -52,6 +54,7 @@ export default class LanguageSelector extends React.Component<
           components={{
             IndicatorSeparator: () => null,
           }}
+          isDisabled={this.props.disabled}
           theme={(theme) => ({
             ...theme,
             borderRadius: 4,

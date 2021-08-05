@@ -1,23 +1,20 @@
 import * as React from "react";
 import "./app.css";
 import { StickyNoteGrid } from "./sticky-note-grid/sticky-note-grid";
-import { StickyNote, Language } from "../../types/types";
+import { Mural, StickyNote, Language } from "../../types/types";
 import LanguageSelector, {
   DEFAULT_LANGUAGE,
 } from "./language-selector/language-selector";
 import { EventEmitter, EventList } from "../service/event-emitter.service";
 import { fetchTranslatedStickyNotes } from "../service/translate.service";
+import { MuralSelector } from "./mural-selector/mural-selector";
 
 type AppState = {
   loadedApp: boolean;
   loadingStickyNotes: boolean;
-  muralId: string | undefined;
+  muralId: string;
   stickyNotes: StickyNote[];
 };
-
-if (!process.env.REACT_APP_MURAL_ID) {
-  throw new Error("Please define the REACT_APP_MURAL_ID");
-}
 
 export default class App extends React.Component<
   { loadedApp: boolean },
@@ -25,14 +22,12 @@ export default class App extends React.Component<
 > {
   state = {
     loadedApp: true,
-    muralId: process.env.REACT_APP_MURAL_ID,
+    muralId: "",
     loadingStickyNotes: false,
     stickyNotes: [],
   };
 
   componentDidMount() {
-    this.loadStickyNotes();
-
     EventEmitter.subscribe(
       "app.tsx",
       EventList.LanguageChanged,
@@ -61,6 +56,15 @@ export default class App extends React.Component<
     }
   };
 
+  onMuralSelected = (mural: Mural) => {
+    this.setState(
+      {
+        muralId: mural.id,
+      },
+      this.loadStickyNotes
+    );
+  };
+
   render() {
     if (!this.props.loadedApp) {
       return <h1>Loading</h1>;
@@ -75,14 +79,23 @@ export default class App extends React.Component<
           </div>
         </div>
 
+        <div className="common-title">Select a mural</div>
+
+        <div className="app-mural-selector-container">
+          <MuralSelector
+            muralId={this.state.muralId}
+            onMuralSelected={this.onMuralSelected}
+          />
+        </div>
+
         <div className="common-title">Selected Language</div>
 
-        <LanguageSelector></LanguageSelector>
+        <LanguageSelector disabled={!this.state.muralId} />
 
         <div className="common-title">Sticky note previews</div>
-
         <div className="sticky-note-grid-container">
           <StickyNoteGrid
+            disabled={!this.state.muralId}
             loading={this.state.loadingStickyNotes}
             stickyNotes={this.state.stickyNotes}
           />
