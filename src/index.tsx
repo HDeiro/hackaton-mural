@@ -1,22 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './components/app';
 import reportWebVitals from './reportWebVitals';
 import startAuth from "./setupAPI";
 
-
 startAuth().then(
-    (result)=>{
-      ReactDOM.render(
-          <React.StrictMode>
-            <App loaded={result}/>
-          </React.StrictMode>,
-          document.getElementById('root')
-      );
-    }
+  (success) => {
+    ReactDOM.render(
+      <React.StrictMode>
+        <App loadedApp={success}/>
+      </React.StrictMode>,
+      document.getElementById('root')
+    );
+  }
 );
-
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

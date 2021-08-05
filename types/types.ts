@@ -23,5 +23,12 @@ export interface StickyNote {
     textAlign: "left" | "center" | "right";
   };
   text: string;
+  translatedText?: string;
   width: number;
+}
+
+export interface Language {
+  label: string;
+  code: string;
+  flag: string;
 }

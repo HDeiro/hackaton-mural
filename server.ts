@@ -4,7 +4,6 @@ import { Request, Response } from "express";
 import createApp from "async-app";
 import app from "./lib/base-app";
 import { authorize, accessToken, refreshToken } from "./lib/oauth";
-import { translate } from "./src/api/translate.api";
 
 const configProvider = () => {
   const cfg = {
@@ -65,13 +64,6 @@ auth.post(
     });
 
     res.json(tokenResponse(tokens));
-  }
-);
-
-app.get(
-  "/api/mural/:muralId/translate/stickies",
-  async (req: Request, res: Response) => {
-    return await translate(req, res);
   }
 );
 
