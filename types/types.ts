@@ -32,8 +32,3 @@ export interface Language {
   code: string;
   flag: string;
 }
-
-export interface Configurations {
-  gcp: any;
-  muralId: string;
-}
