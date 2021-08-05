@@ -1,26 +1,34 @@
-import * as React from 'react';
-import './language-selector.css';
-import { Language } from '../../../types/types';
-import { EventEmitter, EventList } from '../../service/event-emitter.service';
-import Select from 'react-select'
-import { getSupportedLanguages } from '../../service/translate.service';
+import * as React from "react";
+import "./language-selector.css";
+import { Language } from "../../../types/types";
+import { EventEmitter, EventList } from "../../service/event-emitter.service";
+import Select from "react-select";
+import { getSupportedLanguages } from "../../service/translate.service";
 
-let supportedLanguages: Language[] = [{ label: 'English', value: 'en' }];
+export const DEFAULT_LANGUAGE: Language = { label: "English", value: "en" };
 
-export default class LanguageSelector extends React.Component {
-  constructor (props) {
-    super(props);
+export interface LanguageSelectorProps {}
 
-    getSupportedLanguages()
-      .then(languages => supportedLanguages = languages);
-  }
+interface LanguageSelectorState {
+  supportedLanguages: Language[];
+  selectedLanguage: Language | null;
+}
 
+export default class LanguageSelector extends React.Component<
+  LanguageSelectorProps,
+  LanguageSelectorState
+> {
   state = {
-    selectedLanguage: null
-  }
+    supportedLanguages: [{ label: "English", value: "en" }],
+    selectedLanguage: null,
+  };
 
   componentDidMount() {
-    setTimeout(() => this.handleLanguageChange(supportedLanguages[0]), 0);
+    getSupportedLanguages().then((languages) => {
+      this.setState({
+        supportedLanguages: languages,
+      });
+    });
   }
 
   handleLanguageChange = (selectedLanguage: Language) => {
@@ -28,11 +36,13 @@ export default class LanguageSelector extends React.Component {
       return;
     }
 
-    this.setState({selectedLanguage});
+    this.setState({ selectedLanguage });
     EventEmitter.emit(EventList.LanguageChanged, selectedLanguage);
   };
 
   render() {
+    const { supportedLanguages } = this.state;
+
     return (
       <div className="language-selector-wrapper">
         <Select
@@ -40,25 +50,25 @@ export default class LanguageSelector extends React.Component {
           options={supportedLanguages}
           onChange={this.handleLanguageChange}
           components={{
-            IndicatorSeparator: () => null
+            IndicatorSeparator: () => null,
           }}
           theme={(theme) => ({
             ...theme,
             borderRadius: 4,
             colors: {
               ...theme.colors,
-              primary25: '#F5F5F5',
-              primary: '#FF0066',
+              primary25: "#F5F5F5",
+              primary: "#FF0066",
             },
             spacing: {
               ...theme.spacing,
               controlHeight: 54,
-            }
+            },
           })}
           styles={(base) => ({
             ...base,
             innerHeight: 400,
-            height: 140
+            height: 140,
           })}
         />
       </div>
