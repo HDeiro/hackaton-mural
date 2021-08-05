@@ -9,7 +9,7 @@ startAuth().then(
   (success) => {
     ReactDOM.render(
       <React.StrictMode>
-        <App loadingApp={success}/>
+        <App loadedApp={success}/>
       </React.StrictMode>,
       document.getElementById('root')
     );

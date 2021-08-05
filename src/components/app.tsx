@@ -5,19 +5,22 @@ import { StickyNote, Language } from "../../types/types";
 import LanguageSelector from './language-selector/language-selector';
 import { EventEmitter, EventList } from '../service/event-emitter.service';
 import { fetchTranslatedStickyNotes } from '../service/translate.service';
-import { configurations } from '../utils/configurations.utils';
+
+require('dotenv').config();
+
+console.log(process.env);
 
 type AppState = {
-  loadingApp: boolean;
+  loadedApp: boolean;
   loadingStickyNotes: boolean;
   muralId: string | undefined;
   stickyNotes: StickyNote[];
 };
 
-export default class App extends React.Component<{ loadingApp: boolean }, AppState> {
+export default class App extends React.Component<{ loadedApp: boolean }, AppState> {
   state = {
-    loadingApp: false,
-    muralId: configurations.muralId,
+    loadedApp: true,
+    muralId: process.env.REACT_APP_MURAL_ID,
     loadingStickyNotes: false,
     stickyNotes: [],
   };
@@ -52,7 +55,7 @@ export default class App extends React.Component<{ loadingApp: boolean }, AppSta
   };
 
   render() {
-    if (!this.props.loadingApp) {
+    if (!this.props.loadedApp) {
       return <h1>Loading</h1>;
     }
 
@@ -70,10 +73,10 @@ export default class App extends React.Component<{ loadingApp: boolean }, AppSta
           <LanguageSelector></LanguageSelector>
 
           <div className="common-title">
-            Sticky Nodes present on Mural
+            Sticky Notes present on Mural
           </div>
 
-          <div className="stickyNoteGridContainer">
+          <div className="sticky-note-grid-container">
             <StickyNoteGrid
               loading={this.state.loadingStickyNotes}
               stickyNotes={this.state.stickyNotes}
