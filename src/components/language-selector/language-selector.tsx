@@ -1,7 +1,6 @@
 import * as React from "react";
 import "./language-selector.css";
 import { Language } from "../../../types/types";
-import { EventEmitter, EventList } from "../../service/event-emitter.service";
 import Select from "react-select";
 import { getSupportedLanguages } from "../../service/translate.service";
 
@@ -9,11 +8,11 @@ export const DEFAULT_LANGUAGE: Language = { label: "English", value: "en" };
 
 export interface LanguageSelectorProps {
   disabled: boolean;
+  onLanguageSelected: (language: Language) => void;
 }
 
 interface LanguageSelectorState {
   supportedLanguages: Language[];
-  selectedLanguage: Language | null;
 }
 
 export default class LanguageSelector extends React.Component<
@@ -22,7 +21,6 @@ export default class LanguageSelector extends React.Component<
 > {
   state = {
     supportedLanguages: [{ label: "English", value: "en" }],
-    selectedLanguage: null,
   };
 
   componentDidMount() {
@@ -33,15 +31,6 @@ export default class LanguageSelector extends React.Component<
     });
   }
 
-  handleLanguageChange = (selectedLanguage: Language) => {
-    if (this.state.selectedLanguage?.value === selectedLanguage.value) {
-      return;
-    }
-
-    this.setState({ selectedLanguage });
-    EventEmitter.emit(EventList.LanguageChanged, selectedLanguage);
-  };
-
   render() {
     const { supportedLanguages } = this.state;
 
@@ -50,7 +39,7 @@ export default class LanguageSelector extends React.Component<
         <Select
           defaultValue={supportedLanguages[0]}
           options={supportedLanguages}
-          onChange={this.handleLanguageChange}
+          onChange={this.props.onLanguageSelected}
           components={{
             IndicatorSeparator: () => null,
           }}

@@ -5,7 +5,6 @@ import { Mural, StickyNote, Language } from "../../types/types";
 import LanguageSelector, {
   DEFAULT_LANGUAGE,
 } from "./language-selector/language-selector";
-import { EventEmitter, EventList } from "../service/event-emitter.service";
 import { fetchTranslatedStickyNotes } from "../service/translate.service";
 import { MuralSelector } from "./mural-selector/mural-selector";
 
@@ -26,14 +25,6 @@ export default class App extends React.Component<
     loadingStickyNotes: false,
     stickyNotes: [],
   };
-
-  componentDidMount() {
-    EventEmitter.subscribe(
-      "app.tsx",
-      EventList.LanguageChanged,
-      this.loadStickyNotes
-    );
-  }
 
   loadStickyNotes = async (language: Language = DEFAULT_LANGUAGE) => {
     this.setState({ loadingStickyNotes: true });
@@ -65,6 +56,10 @@ export default class App extends React.Component<
     );
   };
 
+  onLanguageSelected = (language: Language) => {
+    this.loadStickyNotes(language);
+  };
+
   render() {
     if (!this.props.loadedApp) {
       return <h1>Loading</h1>;
@@ -90,7 +85,10 @@ export default class App extends React.Component<
 
         <div className="common-title">Selected Language</div>
 
-        <LanguageSelector disabled={!this.state.muralId} />
+        <LanguageSelector
+          disabled={!this.state.muralId}
+          onLanguageSelected={this.onLanguageSelected}
+        />
 
         <div className="common-title">Sticky note previews</div>
         <div className="sticky-note-grid-container">
