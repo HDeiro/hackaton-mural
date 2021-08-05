@@ -5,7 +5,8 @@ import { Mural, StickyNote, Language } from "../../types/types";
 import LanguageSelector, {
   DEFAULT_LANGUAGE,
 } from "./language-selector/language-selector";
-import { fetchTranslatedStickyNotes } from "../service/translate.service";
+import { fetchStickyNotes } from "../service/mural-api.service";
+import { translateStickyNotes } from "../service/translate.service";
 import { MuralSelector } from "./mural-selector/mural-selector";
 
 type AppState = {
@@ -26,19 +27,37 @@ export default class App extends React.Component<
     stickyNotes: [],
   };
 
-  loadStickyNotes = async (language: Language = DEFAULT_LANGUAGE) => {
+  loadStickyNotes = async () => {
     this.setState({ loadingStickyNotes: true });
 
     let stickyNotes: AppState["stickyNotes"] = [];
 
     try {
-      stickyNotes = await fetchTranslatedStickyNotes(
-        this.state.muralId,
+      stickyNotes = await fetchStickyNotes(this.state.muralId);
+    } catch (error) {
+      // TODO: Improve error handling
+      console.log(`An error occurred while fetching sticky notes: ${error}`);
+    } finally {
+      this.setState({
+        loadingStickyNotes: false,
+        stickyNotes,
+      });
+    }
+  };
+
+  translateStickyNotes = async (language: Language = DEFAULT_LANGUAGE) => {
+    this.setState({ loadingStickyNotes: true });
+
+    let stickyNotes: AppState["stickyNotes"] = [];
+
+    try {
+      stickyNotes = await translateStickyNotes(
+        this.state.stickyNotes,
         language.value
       );
     } catch (error) {
       // TODO: Improve error handling
-      console.log(`An error occurred while fetching sticky notes: ${error}`);
+      console.log(`An error occurred while translating sticky notes: ${error}`);
     } finally {
       this.setState({
         loadingStickyNotes: false,
@@ -57,7 +76,7 @@ export default class App extends React.Component<
   };
 
   onLanguageSelected = (language: Language) => {
-    this.loadStickyNotes(language);
+    this.translateStickyNotes(language);
   };
 
   render() {
