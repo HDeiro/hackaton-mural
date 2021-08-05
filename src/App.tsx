@@ -1,11 +1,11 @@
 import * as React from "react";
 import "./App.css";
-import { fetchStickyNotes } from "./api";
 import { StickyNoteGrid } from "./StickyNoteGrid";
 import { StickyNote } from "./types";
 import LanguageSelector from './language-selector/language-selector';
 import { EventEmitter, EventList } from './event-emitter/event-emitter';
 import { Language } from './language-selector/language';
+import { fetchTranslatedStickyNotes } from './service/translate.service';
 
 type AppState = {
   loadingApp: boolean;
@@ -23,16 +23,14 @@ export default class App extends React.Component<{ loadingApp: boolean }, AppSta
   };
 
   componentDidMount() {
-    this.loadStickyNotes();
-
     EventEmitter.subscribe(
       'app.tsx',
       EventList.LanguageChanged,
-      (language: Language) => console.log(`Language Changed To`, language),
+      this.loadStickyNotes,
     );
   }
 
-  loadStickyNotes = async () => {
+  loadStickyNotes = async (language: Language) => {
     this.setState({
       loadingStickyNotes: true,
     });
@@ -40,7 +38,8 @@ export default class App extends React.Component<{ loadingApp: boolean }, AppSta
     let stickyNotes: AppState["stickyNotes"] = [];
 
     try {
-      stickyNotes = await fetchStickyNotes(this.state.muralId);
+      // stickyNotes = await fetchStickyNotes(this.state.muralId);
+      stickyNotes = await fetchTranslatedStickyNotes(this.state.muralId, language.code);
     } catch (error) {
       // TODO: Improve error handling
       console.log(`An error occurred while fetching sticky notes: ${error}`);

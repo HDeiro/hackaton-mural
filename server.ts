@@ -5,6 +5,8 @@ import createApp from "async-app";
 import app from "./lib/base-app";
 import { authorize, accessToken, refreshToken } from "./lib/oauth";
 import { translate } from "./src/api/translate.api";
+import { ErrorService, ValidationError } from "./src/service/error.service";
+import { fetchStickyNotes } from "./src/service/mural-api.service";
 
 const configProvider = () => {
   const cfg = {
@@ -65,13 +67,6 @@ auth.post(
     });
 
     res.json(tokenResponse(tokens));
-  }
-);
-
-app.get(
-  "/api/mural/:muralId/translate/stickies",
-  async (req: Request, res: Response) => {
-    return await translate(req, res);
   }
 );
 

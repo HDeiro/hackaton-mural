@@ -6,7 +6,7 @@ import {EventEmitter, EventList} from '../event-emitter/event-emitter';
 const supportedLanguages: Language[] = [
   {
     label: 'English',
-    code: 'us',
+    code: 'en',
     flag: '/flags/us.svg'
   },
   {
@@ -31,7 +31,7 @@ const supportedLanguages: Language[] = [
   },
   {
     label: 'Українська',
-    code: 'ua',
+    code: 'uk',
     flag: '/flags/ua.svg'
   }
 ]
@@ -41,8 +41,12 @@ export default class LanguageSelector extends React.Component {
     selectedLanguage: supportedLanguages[0]
   }
 
+  componentDidMount() {
+    this.handleLanguageChange(supportedLanguages[0]);
+  }
+
   handleLanguageChange = (selectedLanguage: Language) => {
-    if (this.state.selectedLanguage.code === selectedLanguage.code) {
+    if (this.state.selectedLanguage?.code === selectedLanguage.code) {
       return;
     }
 

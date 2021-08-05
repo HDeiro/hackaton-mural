@@ -27,6 +27,7 @@ export class StickyNoteCard extends Component<StickyNoteProps> {
         underline,
       },
       text,
+      translatedText,
     } = this.props.stickyNote;
 
     const color = fontColorContrast(backgroundColor);
@@ -69,7 +70,7 @@ export class StickyNoteCard extends Component<StickyNoteProps> {
           width,
         }}
       >
-        {text}
+        {translatedText || text}
       </div>
     );
   }

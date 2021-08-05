@@ -1,21 +1,36 @@
-import { Request, Response } from "express";
-import { fetchStickyNotes } from "../service/mural-api.service";
-import { ErrorService, ValidationError } from "../service/error.service";
+const { Translate } = require('@google-cloud/translate').v2;
 
-/**
- * Fetch a single page of sticky notes in a mural.
- */
-export const translate = async (req: Request, res: Response) => {
-  const { muralId } = req.params;
+let translateInstance: any;
 
-  if (!muralId) {
-    throw new ValidationError(`A valid muralId is required for this api.`);
-  }
-
-  try {
-    const stickyNotes = await fetchStickyNotes(muralId);
-    res.status(200).json(stickyNotes);
-  } catch (error) {
-    ErrorService.errorHandler(error, res);
-  }
+// https://cloud.google.com/translate/docs/languages
+export enum SupportedLanguages {
+  Portuguese = 'pt',
+  English = 'en',
+  Spanish = 'es',
+  French = 'fr'
 };
+
+export const getInstance = () => {
+  if (translateInstance) {
+    return translateInstance;
+  }
+
+  const credentials = JSON.parse(process.env.GCP_CREDENTIALS || '');
+
+  translateInstance = new Translate({
+    credentials,
+    projectId: credentials.project_id
+  });
+
+  return translateInstance;
+}
+
+export const translate = async (
+  text: string,
+  target: string
+): Promise<string> => {
+  console.log('CHEGOU AQUI', text, target);
+  const [translated] = await getInstance().translate(text, target);
+  console.log('CHEGOU AQUI', translated);
+  return translated;
+}

@@ -13,6 +13,7 @@ declare module 'dos-config' {
   interface Config {
     appName: string;
     serverPort: number;
+    gcp: any;
     endpoints: {
       webapp: string;
     },
