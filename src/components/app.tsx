@@ -6,16 +6,16 @@ import LanguageSelector from './language-selector/language-selector';
 import { EventEmitter, EventList } from '../service/event-emitter.service';
 import { fetchTranslatedStickyNotes } from '../service/translate.service';
 
-require('dotenv').config();
-
-console.log(process.env);
-
 type AppState = {
   loadedApp: boolean;
   loadingStickyNotes: boolean;
   muralId: string | undefined;
   stickyNotes: StickyNote[];
 };
+
+if (!process.env.REACT_APP_MURAL_ID) {
+  throw new Error('Please define the REACT_APP_MURAL_ID');
+}
 
 export default class App extends React.Component<{ loadedApp: boolean }, AppState> {
   state = {
