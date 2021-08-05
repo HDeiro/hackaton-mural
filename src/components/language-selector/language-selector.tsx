@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './language-selector.css';
-import { Language } from './language';
-import {EventEmitter, EventList} from '../event-emitter/event-emitter';
+import { Language } from '../../../types/types';
+import {EventEmitter, EventList} from '../../service/event-emitter.service';
 
 const supportedLanguages: Language[] = [
   {
@@ -38,11 +38,11 @@ const supportedLanguages: Language[] = [
 
 export default class LanguageSelector extends React.Component {
   state = {
-    selectedLanguage: supportedLanguages[0]
+    selectedLanguage: null
   }
 
   componentDidMount() {
-    this.handleLanguageChange(supportedLanguages[0]);
+    setTimeout(() => this.handleLanguageChange(supportedLanguages[0]), 0);
   }
 
   handleLanguageChange = (selectedLanguage: Language) => {
@@ -60,7 +60,7 @@ export default class LanguageSelector extends React.Component {
         {supportedLanguages.map((language) =>
           <button key={language.code}
             onClick={(evt) => {evt.preventDefault(); this.handleLanguageChange(language)}}
-            className={"language-selector-item " + (language.code === this.state.selectedLanguage.code ? "language-selector-item-active" : "")}
+            className={"language-selector-item " + (language.code === this.state.selectedLanguage?.code ? "language-selector-item-active" : "")}
             title={language.label}>
             <img
               className="language-selector-flag noselect"

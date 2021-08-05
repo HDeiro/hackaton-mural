@@ -26,3 +26,14 @@ export interface StickyNote {
   translatedText: string;
   width: number;
 }
+
+export interface Language {
+  label: string;
+  code: string;
+  flag: string;
+}
+
+export interface Configurations {
+  gcp: any;
+  muralId: string;
+}

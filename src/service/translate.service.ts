@@ -1,9 +1,10 @@
-import { StickyNote } from '../types';
+import { StickyNote } from '../../types/types';
 import { fetchStickyNotes } from './mural-api.service';
+import { configurations } from '../utils/configurations.utils';
+
 const { Translate } = require('@google-cloud/translate').v2;
 
 let translateInstance: any;
-const credentials = {};
 
 export const fetchTranslatedStickyNotes = async (
   muralId: string,
@@ -27,11 +28,13 @@ export const getInstance = () => {
     return translateInstance;
   }
 
-  console.log('CREDDENTIALS', credentials);
+  if (!configurations.gcp) {
+    throw Error('GCP Credentials are not defined (utils/configurations.utils.ts)');
+  }
 
   translateInstance = new Translate({
-    credentials,
-    projectId: credentials.project_id
+    credentials: configurations.gcp,
+    projectId: configurations.gcp.project_id
   });
 
   return translateInstance;

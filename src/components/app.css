@@ -1,0 +1,26 @@
+.common-title {
+  color: var(--color-2);
+  font-size: var(--font-size-1);
+  font-weight: 500;
+}
+
+.language-selector-wrapper {
+  margin: 24px 0;
+}
+
+.sticky-note-grid {
+  margin-top: 24px;
+}
+
+.app-header {
+  color: var(--color-1);
+  background: var(--color-2);
+  font-size: var(--font-size-2);
+  height: 52px;
+  line-height: 52px;
+  padding: 0 var(--side-spacing);
+}
+
+.app-content {
+  padding: var(--side-spacing);
+}

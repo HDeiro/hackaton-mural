@@ -1,10 +1,10 @@
-.StickyNoteGrid {
+.sticky-note-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 
-.StickyNoteGrid .StickyNoteCard {
+.sticky-note-grid .sticky-note-card {
   margin-right: 16px;
   margin-bottom: 16px;
 }

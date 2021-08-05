@@ -1,5 +1,5 @@
 import { clientConfig } from "../setupAPI";
-import { StickyNote } from "../types";
+import { StickyNote } from "../../types/types";
 
 const API_BASE_URL = "https://app.mural.co/api/public/v1";
 

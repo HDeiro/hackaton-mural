@@ -11,12 +11,12 @@
 }
 
 .language-selector-item:hover {
-  background-color: white;
+  background-color: var(--color-5);
 }
 
 .language-selector-item-active {
-  background-color: white;
-  border-color: lightgray;
+  background-color: var(--color-5);
+  border-color: var(--color-6);
 }
 
 .language-selector-flag {

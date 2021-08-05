@@ -1,0 +1,33 @@
+.sticky-note-card {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.sticky-note-card-bold {
+  font-weight: bold;
+}
+
+.sticky-note-card-border {
+  border: 3px solid var(--color-3);
+}
+
+.sticky-note-card-circle {
+  border-radius: 50%;
+}
+
+.sticky-note-card-italic {
+  font-style: italic;
+}
+
+.sticky-note-card-strike {
+  text-decoration: line-through;
+}
+
+.sticky-note-card-underline {
+  text-decoration: underline;
+}
+
+.sticky-note-card-strike.sticky-note-card-underline {
+  text-decoration: line-through underline;
+}

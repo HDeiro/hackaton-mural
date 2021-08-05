@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import fontColorContrast from "font-color-contrast";
-import "./StickyNoteCard.css";
-import { StickyNote } from "./types";
+import "./sticky-note-card.css";
+import { StickyNote } from "../../../types/types";
 
 export interface StickyNoteProps {
   stickyNote: StickyNote;
@@ -32,30 +32,30 @@ export class StickyNoteCard extends Component<StickyNoteProps> {
 
     const color = fontColorContrast(backgroundColor);
 
-    const classNames = ["StickyNoteCard"];
+    const classNames = ["sticky-note-card"];
 
     if (shape === "circle") {
-      classNames.push("StickyNoteCard-circle");
+      classNames.push("sticky-note-card-circle");
     }
 
     if (border) {
-      classNames.push("StickyNoteCard-border");
+      classNames.push("sticky-note-card-border");
     }
 
     if (bold) {
-      classNames.push("StickyNoteCard-bold");
+      classNames.push("sticky-note-card-bold");
     }
 
     if (italic) {
-      classNames.push("StickyNoteCard-italic");
+      classNames.push("sticky-note-card-italic");
     }
 
     if (strike) {
-      classNames.push("StickyNoteCard-strike");
+      classNames.push("sticky-note-card-strike");
     }
 
     if (underline) {
-      classNames.push("StickyNoteCard-underline");
+      classNames.push("sticky-note-card-underline");
     }
 
     return (

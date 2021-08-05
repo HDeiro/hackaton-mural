@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import "./StickyNoteGrid.css";
-import { StickyNote } from "./types";
-import { StickyNoteCard } from "./StickyNoteCard";
+import "./sticky-note-grid.css";
+import { StickyNote } from "../../../types/types";
+import { StickyNoteCard } from "../sticky-note-card/sticky-note-card";
 
 export interface StickyNoteGridProps {
   loading: boolean;
@@ -16,7 +16,7 @@ export class StickyNoteGrid extends Component<StickyNoteGridProps> {
     return this.props.loading ? (
       <progress />
     ) : (
-      <div className="StickyNoteGrid">
+      <div className="sticky-note-grid">
         {this.props.stickyNotes.length ? (
           this.props.stickyNotes.map((stickyNote) => (
             <StickyNoteCard key={stickyNote.id} stickyNote={stickyNote} />
