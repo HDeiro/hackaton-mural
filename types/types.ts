@@ -29,6 +29,5 @@ export interface StickyNote {
 
 export interface Language {
   label: string;
-  code: string;
-  flag: string;
+  value: string;
 }
