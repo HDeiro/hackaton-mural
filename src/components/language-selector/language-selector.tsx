@@ -37,7 +37,7 @@ export default class LanguageSelector extends React.Component<
     return (
       <div className="language-selector-wrapper">
         <Select
-          placeholder="Choose the language you would like to translate"
+          placeholder="Choose the language to translate to"
           options={supportedLanguages}
           onChange={this.props.onLanguageSelected}
           components={{
