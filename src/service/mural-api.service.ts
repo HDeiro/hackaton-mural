@@ -1,12 +1,15 @@
 import { clientConfig } from "../setupAPI";
-import { StickyNote } from "../../types/types";
+import { Mural, StickyNote } from "../../types/types";
 
 const API_BASE_URL = "https://app.mural.co/api/public/v1";
 
-interface FetchStickyNotesPageResponse {
-  value: StickyNote[];
+interface FetchPageResponse<T> {
+  value: T[];
   next: string;
 }
+
+type FetchStickyNotesPageResponse = FetchPageResponse<StickyNote>;
+type FetchMuralsPageResponse = FetchPageResponse<Mural>;
 
 /**
  * Fetch a single page of sticky notes in a mural.
@@ -23,6 +26,26 @@ const fetchStickyNotesPage = async (
   const response = await clientConfig.fetchFn(getWidgetsUrl);
   if (!response.ok) {
     throw new Error("Error fetching sticky notes");
+  }
+
+  return await response.json();
+};
+
+/**
+ * Fetch a single page of murals.
+ */
+const fetchMuralsPage = async (
+  next?: string
+): Promise<FetchMuralsPageResponse> => {
+  const params = new URLSearchParams({
+    filterBy: "active",
+    sortBy: "lastModified",
+    ...(next && { next }),
+  });
+  const getMuralsUrl = `${API_BASE_URL}/murals/?${params}`;
+  const response = await clientConfig.fetchFn(getMuralsUrl);
+  if (!response.ok) {
+    throw new Error("Error fetching murals");
   }
 
   return await response.json();
@@ -52,4 +75,25 @@ export const fetchStickyNotes = async (
   } while (next !== undefined);
 
   return widgets;
+};
+
+/**
+ * Fetch murals.
+ */
+export const fetchMurals = async (): Promise<Mural[]> => {
+  let murals: Mural[] = [];
+  let next: string | undefined = undefined;
+
+  do {
+    // Fetch a page of murals
+    const result: FetchMuralsPageResponse = await fetchMuralsPage(next);
+
+    // Add murals to list
+    murals = murals.concat(result.value);
+
+    // Get the token to request the next page
+    next = result.next;
+  } while (next !== undefined);
+
+  return murals;
 };
