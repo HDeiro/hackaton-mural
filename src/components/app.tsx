@@ -86,6 +86,10 @@ export default class App extends React.Component<
 
     return (
       <div className="app-wrapper">
+        <div className="logo-wrapper">
+          <img src="mural.gif" alt="MURAL animated gif" className="logo" />
+        </div>
+
         <div className="main">
           <div className="main-title">MURAL Translator</div>
           <div className="main-subtitle">
@@ -93,7 +97,7 @@ export default class App extends React.Component<
           </div>
         </div>
 
-        <div className="common-title">Select a mural</div>
+        <div className="common-title">Selected Mural</div>
 
         <div className="app-mural-selector-container">
           <MuralSelector

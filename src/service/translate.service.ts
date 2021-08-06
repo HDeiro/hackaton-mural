@@ -18,10 +18,6 @@ export const translateStickyNotes = async (
   language: string,
 ): Promise<StickyNote[]> => {
 
-  if (language === 'en') {
-    return stickyNotes;
-  }
-
   await Promise.all(
     stickyNotes.map(async (note) => note.translatedText = await translate(note.text, language))
   );
