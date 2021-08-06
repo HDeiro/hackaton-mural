@@ -15,12 +15,11 @@
   font-weight: bold;
   color: var(--color-3);
   font-size: var(--font-size-2);
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .main-subtitle {
   font-size: var(--font-size-2);
-  margin-bottom: 32px;
 }
 
 .common-title {
@@ -33,7 +32,13 @@
   margin: 24px 0;
 }
 
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  padding-bottom: 50px;
+}
+
 .logo {
-  width: 150px;
-  margin-bottom: 4px;
+  width: 56px;
+  margin-right: 16px;
 }

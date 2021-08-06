@@ -86,14 +86,14 @@ export default class App extends React.Component<
 
     return (
       <div className="app-wrapper">
-        <div className="logo-wrapper">
-          <img src="mural.gif" alt="MURAL animated gif" className="logo" />
-        </div>
+        <div className="title-wrapper">
+          <img src="mural-glyph.png" alt="MURAL Glyph" className="logo" />
 
-        <div className="main">
-          <div className="main-title">MURAL Translator</div>
-          <div className="main-subtitle">
-            Translate sticky notes to another language
+          <div className="title">
+            <div className="main-title">MURAL Translator</div>
+            <div className="main-subtitle">
+              Translate sticky notes to another language
+            </div>
           </div>
         </div>
 
