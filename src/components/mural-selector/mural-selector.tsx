@@ -55,6 +55,7 @@ export class MuralSelector extends Component<
     return (
       <div>
         <Select
+          placeholder="Choose a Mural to translate its sticky notes"
           options={this.state.murals}
           getOptionLabel={(mural) => mural.title || "Untitled mural"}
           getOptionValue={(mural) => mural.id}
