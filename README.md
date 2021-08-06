@@ -1,18 +1,24 @@
-# mural-integrations-sample
+# HTTI
 
-Welcome to our sample app!
+Welcome to the translation app for MURAL sticky notes!
+
+
 
 ## Setup
 
-To get started as quickly as possible using this sample app, you can use Mailinator credentials in the default setup. 
-More information about setting up a Mailinator email account can be found here:
-https://mural.atlassian.net/wiki/spaces/PDE/pages/2177925284/Apps+Ahoy+Hackathon+-+Production+testing+of+the+public+api
+> You **need** to have an account on Google Cloud Platform (GCP) in order to have things working in what regards translation. Please, see [this video](https://www.youtube.com/watch?v=Sjl9ilOpHG8), it will help you to define what we need in order to get your GCP Credentials.
 
-Once you have set up your Mailinator account, be sure to install dependencies using the below command:
+#### Setup your environment:
 
-```shell
-npm install
-```
+1. Create a `.env.local` file as a copy of `.env`;
+2. Set your GCP Credentials over the attribute `REACT_APP_GCP_CREDENTIALS`
+3. Install dependencies executing:
+
+    ```shell
+    npm install
+    ```
+
+After that you're good to go!
 
 ## Applications
 
@@ -33,7 +39,7 @@ This will kick off the oauth server on port `5000` and allow you to do authentic
 
 The default scopes requested by the application are:
 
- - murals:read 
+ - murals:read
  - murals:write
  - rooms:read
  - workspaces:read
@@ -41,14 +47,14 @@ The default scopes requested by the application are:
 
 However, all scopes can be used by this sample app:
 
-The settings for this server are stored in the [config/defaults.json](./config/defaults.json) file, and can be 
+The settings for this server are stored in the [config/defaults.json](./config/defaults.json) file, and can be
 overridden by creating a `config/local.json` file that follows the same structure.
 
 The oauth application itself runs from the [server.ts](./server.ts) file.
 
 ### React App
 
-The React app was made using [create-react-app](https://create-react-app.dev/docs/documentation-intro) and can be 
+The React app was made using [create-react-app](https://create-react-app.dev/docs/documentation-intro) and can be
 started by running the following command:
 
 ```shell
@@ -59,7 +65,7 @@ This will begin running the client application on port `4000` which is set in th
 
 Remember, these settings can be overridden with a  `.env.local` file.
 
-The [entry point](https://webpack.js.org/concepts/#entry) for this application is [src/index.tsx](./src/index.tsx) and 
+The [entry point](https://webpack.js.org/concepts/#entry) for this application is [src/index.tsx](./src/index.tsx) and
 the main App is in [src/App.tsx](./src/App.tsx)
 
 
@@ -67,8 +73,8 @@ the main App is in [src/App.tsx](./src/App.tsx)
 
 By default, this app's functionality is running tests to ensure workspaces and rooms are able to fetch murals.
 
-If you want to change or add to this behavior by making your own calls to the API, you can use the app's built-in 
-implementation of [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), which automatically takes care 
+If you want to change or add to this behavior by making your own calls to the API, you can use the app's built-in
+implementation of [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), which automatically takes care
 of OAuth (by appending your token to each request for you).
 
 To get this working, you must call the following method before you attempt to call any APIs:
@@ -99,6 +105,6 @@ clientConfig.fetchFn('https://app.mural.co/api/public/v1')  // endpoint URI goes
 ```
 
 `clientConfig.fetchFn` replicates the interface for the [`fetch` API](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch)
-The signature for `clientConfig.fetchFn` is identical to that of [`fetch` API](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch), 
-with the additional feature of automatically refreshing the token for you, which means you don't have to implement this 
+The signature for `clientConfig.fetchFn` is identical to that of [`fetch` API](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch),
+with the additional feature of automatically refreshing the token for you, which means you don't have to implement this
 on your own.
