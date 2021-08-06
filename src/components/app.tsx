@@ -2,9 +2,7 @@ import * as React from "react";
 import "./app.css";
 import { StickyNoteGrid } from "./sticky-note-grid/sticky-note-grid";
 import { Mural, StickyNote, Language } from "../../types/types";
-import LanguageSelector, {
-  DEFAULT_LANGUAGE,
-} from "./language-selector/language-selector";
+import LanguageSelector from "./language-selector/language-selector";
 import { fetchStickyNotes } from "../service/mural-api.service";
 import { translateStickyNotes } from "../service/translate.service";
 import { MuralSelector } from "./mural-selector/mural-selector";
@@ -13,6 +11,7 @@ type AppState = {
   loadedApp: boolean;
   loadingStickyNotes: boolean;
   muralId: string;
+  language: Language | null;
   stickyNotes: StickyNote[];
 };
 
@@ -23,6 +22,7 @@ export default class App extends React.Component<
   state = {
     loadedApp: true,
     muralId: "",
+    language: null,
     loadingStickyNotes: false,
     stickyNotes: [],
   };
@@ -45,7 +45,7 @@ export default class App extends React.Component<
     }
   };
 
-  translateStickyNotes = async (language: Language = DEFAULT_LANGUAGE) => {
+  translateStickyNotes = async (language: Language) => {
     this.setState({ loadingStickyNotes: true });
 
     let stickyNotes: AppState["stickyNotes"] = [];
@@ -67,15 +67,20 @@ export default class App extends React.Component<
   };
 
   onMuralSelected = (mural: Mural) => {
+    // Set active mural, reset language selection, and load the mural's sticky
+    // notes
     this.setState(
       {
         muralId: mural.id,
+        language: null,
       },
       this.loadStickyNotes
     );
   };
 
   onLanguageSelected = (language: Language) => {
+    // Translate the mural's sticky notes to the selected language
+    this.setState({ language });
     this.translateStickyNotes(language);
   };
 
@@ -110,6 +115,7 @@ export default class App extends React.Component<
 
         <LanguageSelector
           disabled={!this.state.muralId}
+          language={this.state.language}
           onLanguageSelected={this.onLanguageSelected}
         />
 
