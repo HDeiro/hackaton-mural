@@ -4,10 +4,9 @@ import { Language } from "../../../types/types";
 import Select from "react-select";
 import { getSupportedLanguages } from "../../service/translate.service";
 
-export const DEFAULT_LANGUAGE: Language = { label: "English", value: "en" };
-
 export interface LanguageSelectorProps {
   disabled: boolean;
+  language: Language | null;
   onLanguageSelected: (language: Language) => void;
 }
 
@@ -39,6 +38,7 @@ export default class LanguageSelector extends React.Component<
         <Select
           placeholder="Choose the language to translate to"
           options={supportedLanguages}
+          value={this.props.language}
           onChange={this.props.onLanguageSelected}
           components={{
             IndicatorSeparator: () => null,
